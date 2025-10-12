@@ -1,20 +1,38 @@
 {
-  "next-js": 6,
-  "tailwind": 3,
-  "guide": 5,
-  "feature": 2,
-  "multi-author": 1,
-  "hello": 1,
-  "math": 1,
-  "ols": 1,
-  "github": 1,
-  "writings": 1,
-  "book": 1,
-  "reflection": 1,
-  "holiday": 1,
-  "canada": 1,
-  "images": 1,
-  "markdown": 1,
-  "code": 1,
-  "features": 1
+  "tailwindcss": {
+    "slug": "tailwindcss",
+    "name": "Tailwind CSS",
+    "description": "A utility-first CSS framework for rapid UI development.",
+    "color": "#38bdf8"
+  },
+  "react": {
+    "slug": "react",
+    "name": "React",
+    "description": "A JavaScript library for building user interfaces.",
+    "color": "#61dafb"
+  },
+  "nextjs": {
+    "slug": "nextjs",
+    "name": "Next.js",
+    "description": "The React Framework for Production.",
+    "color": "#000000"
+  },
+  "typescript": {
+    "slug": "typescript",
+    "name": "TypeScript",
+    "description": "TypeScript is a strongly typed programming language that builds on JavaScript.",
+    "color": "#3178c6"
+  },
+  "markdown": {
+    "slug": "markdown",
+    "name": "Markdown",
+    "description": "A lightweight markup language for creating formatted text using a plain-text editor.",
+    "color": "#0868ac"
+  },
+  "contentlayer": {
+    "slug": "contentlayer",
+    "name": "Contentlayer",
+    "description": "Contentlayer turns your content into data - making it super easy to import MDX and markdown content in your React and Next.js apps.",
+    "color": "#1a56db"
+  }
 }
