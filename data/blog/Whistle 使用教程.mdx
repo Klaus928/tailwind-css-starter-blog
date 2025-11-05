@@ -1,0 +1,193 @@
+---
+title: Whistle 使用教程
+date: '2022-01-12'
+tags: ['WHISTLE']
+draft: false
+summary: 'Whistle 使用经验分享'
+---
+
+## 目录
+
+- [summary: 'Whistle 使用经验分享'](#summary-whistle-使用经验分享)
+- [目录](#目录)
+- [安装启动](#安装启动)
+  - [安装](#安装)
+  - [启动](#启动)
+  - [重启](#重启)
+  - [停止](#停止)
+- [配置代理](#配置代理)
+  - [配置信息](#配置信息)
+  - [浏览器代理配置](#浏览器代理配置)
+- [练习](#练习)
+- [安装根证书](#安装根证书)
+- [练习- Mock数据](#练习--mock数据)
+- [参考](#参考)
+
+[ 关于whistle · GitBook http://wproxy.org/whistle/](http://wproxy.org/whistle/ ' 关于whistle · GitBook  http://wproxy.org/whistle/')
+
+> 🥱本文内容：
+> windows 系统下 whistle安装和启动
+> 无法访问google.com情况下下载浏览器插件SwitchyOmega
+> 以及浏览器代理配置
+
+> whistle主要用于查看、修改HTTP、HTTPS、Websocket的请求、响应，也可以作为HTTP代理服务器使用
+
+你也可以简单将其看作一个提供代理服务的工具，通过配置规则（rules）来抓包（类似Chrome浏览器Network功能），抓包过程中可以修改很多东西，请求头、cookie、response等
+
+一张图看看whistle具体能做什么
+
+![](/static/images/whistle/image_JXQCn5kCSm.png)
+
+一个小示例，我们把klaus.com 转发到baidu.com，也就是访问klaus. com 和访问baidu. com的效果一样
+
+## 安装启动
+
+### 安装
+
+```powershell
+ npm install whistle -g --registry=https://registry.npm.taobao.org
+
+```
+
+检查是否安装成功，如果显示帮助信息即安装成功
+
+```powershell
+w2 help
+```
+
+### 启动
+
+```powershell
+w2 start
+```
+
+### 重启
+
+```powershell
+w2 restart
+```
+
+### 停止
+
+```powershell
+w2 stop
+```
+
+调试模式启动whistle(主要用于查看whistle的异常及插件开发)
+
+```powershell
+w2 run
+```
+
+## 配置代理
+
+### 配置信息
+
+首先启动whistle， 看到配置地址 127.0.0.1:8899，访问其显示如下图2
+
+![](/static/images/whistle/image_DFL4Bqrmxs.png)
+
+![](/static/images/whistle/image_TEoJ59vTAP.png)
+
+代理配置方式有三种
+
+- 全局代理（系统代理）
+- 浏览器代理
+- 移动端代理
+
+Web 前端一般配置浏览器代理就可以
+
+### 浏览器代理配置
+
+需要下载一个插件叫 Proxy SwitchyOmega，可条件的直接安装[Chrome插件](https://chrome.google.com/webstore/detail/padekgcemlokbadohgkifijomclgjgif 'Chrome插件')，没条件往[Github](https://github.com/FelisCatus/SwitchyOmega/releases 'Github')的下载包
+
+![](/static/images/whistle/image_-Wl9B3ALoH.png)
+
+当把csx 文件拖进扩展程序区域时，因为某些原因会出现Chrome插件SwitchyOmega安装时程序包无效:“CRX_HEADER_INVALID“问题
+
+![](/static/images/whistle/image_OHJkOk0kQw.png)
+
+**所以要把crx 后缀改为rar后解压，再以“加载已解压的扩展程序”方式导入即可**
+
+![](/static/images/whistle/image_T7dG5dMtPk.png)
+
+将插件固定到浏览器头部方便选择，鼠标悬浮时会显示当前网页的代理方式
+
+![](/static/images/whistle/image_g91wGMBo3t.png)
+
+插件代理方式选择如下
+
+- 直接连接：不使用任何代理
+- 系统代理：需要配置全局代理（我没配置所以不选）
+- proxy： 插件自动创建的模式，我们可以对其编辑和删除
+- auto switch: 自动切换
+- wolai.com：是我们当前网页的域名，可以只对当前域名操作，除了这一个其他选项是浏览器默认代理，一般是直接连接（也就是不使用代理），除非配置了系统代理就选系统代理
+
+![](</static/images/whistle/1639493376(1)_KeknNE3rak.png>)
+
+![](/static/images/whistle/image__v12nmI-xX.png)
+
+代理服务器设置为127.0.0.1:8899 可以自动使用我们配置的rules
+
+## 练习
+
+klausnqs.icu域名下的请求都替换成对应的element域名
+
+现在假如我希望访问 klausnqs.icu这个域名将其转发到element.eleme.cn，rules 如下
+
+```powershell
+klausnqs.icu element.eleme.cn
+```
+
+![](</static/images/whistle/1639494776(1)_UL-yOWspZH.png>)
+
+![](/static/images/whistle/image_MSmTWoR-cp.png)
+
+不要忘记打开proxy 代理，proxy代理匹配不到的话会直接连接，匹配到才会走代理
+
+NetWork 抓包
+
+![](/static/images/whistle/image_AqN0QR6pEI.png)
+
+## 安装根证书
+
+**注意：一定要安装到受信任的根证书颁发机构**，否则不能抓HTTPS的包，浏览器也可能报异常警告
+
+![](</static/images/whistle/1639497507(1)_pNqscelhBl.png>)
+
+![](/static/images/whistle/image_RTKabeEI3W.png)
+
+## 练习- Mock数据
+
+发生跨域问题
+
+```powershell
+# rules
+https://api.juejin.cn/user_api/v1/author/recommend?aid=2608&uuid=6921676155763738119&category_id=&cursor=0&limit=20  resHeaders://{resHeader.json} resCors://{cors.json}
+https://api.juejin.cn/user_api/v1/author/recommend?aid=2608&uuid=6921676155763738119&category_id=&cursor=0&limit=20  file://{juejinList.json}
+
+```
+
+```powershell
+# juejinList.json
+{
+ "Access-Control-Allow-Headers": "Content-Type"
+}
+
+```
+
+```powershell
+# cors.json
+origin: https://juejin.cn
+
+```
+
+下面的报错提示cors 策略中content-type 不被允许，需要加上 ` "Access-Control-Allow-Headers": "Content-Type"`
+
+![](/static/images/whistle/image_eWaMX5As6J.png)
+
+其他详细内容请查看官网
+
+## 参考
+
+https://juejin.cn/post/6861882596927504392
