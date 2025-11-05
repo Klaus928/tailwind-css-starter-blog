@@ -1,0 +1,104 @@
+---
+title: '使用不同类型作为 Object 的键'
+date: '2024-10-12'
+draft: false
+tags:
+  - JAVASCRIPT
+---
+
+## 基本类型
+
+基本类型会转换为字符串作为 key
+
+```javascript
+const obj = {}
+obj[1] = 1
+obj['1'] = '1'
+obj[undefined] = undefined
+obj[null] = null
+obj[true] = true
+obj[Symbol('sym')] = 'symbol'
+
+console.log(obj)
+```
+
+![](/static/images/object/baseType.png)
+
+## 对象作为 key
+
+所有对象都会被转换为字符串 '[object Object]'，导致 key 冲突
+
+```
+const obj = {};
+const key1 = { a: 1 };
+const key2 = { a: 1 };
+
+
+obj[key1] = 'value1';
+obj[key2] = 'value2';
+
+console.log(obj); // { '[object Object]': 'value2' }
+console.log(obj[key1]); // 'value2'
+console.log(obj[key2]); // 'value2'
+```
+
+## Map、WeakMap作为key
+
+转换为 [Object TypeName]
+
+```
+const obj = {};
+const map1 = new Map();
+const map2 = new Map();
+const weakMap = new WeakMap();
+const set = new Set();
+const weakSet = new WeakSet();
+
+obj[map1] = 'map1';
+obj[map2] = 'map2';
+obj[weakMap] = 'weakMap';
+obj[set] = 'set';
+obj[weakSet] = 'weakSet';
+
+console.log(obj);
+// {
+//   "[object Map]": "map2",
+//   "[object WeakMap]": "weakMap",
+//   "[object Set]": "set",
+//   "[object WeakSet]": "weakSet"
+// }
+```
+
+## 数组作为 key
+
+数组会调用 toString() 方法将数组转换为 字符串作为key
+
+```
+const obj = {};
+const arr1 = [1, 2, 3];
+const arr2 = [1, 2, 3];
+
+obj[arr1] = 'array1';
+obj[arr2] = 'array2';
+
+console.log(obj); // { '1,2,3': 'array2' }
+console.log(obj[arr1]); // 'array2'
+console.log(obj[arr2]); // 'array2'
+```
+
+## 函数作为key
+
+返回函数源代码字符串作为 key
+
+```
+const test = () => {
+  console.log('kk')
+}
+
+const obj = {};
+obj[test] = 'kk'
+console.log(obj)
+// {
+//   "() => {\n  console.log('kk');\n}": "kk"
+// }
+```
